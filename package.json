@@ -1,0 +1,16 @@
+{
+  "name": "prison-management-system",
+  "version": "1.0.0",
+  "description": "Role-based prison management web app (Node.js + Express) with a matching Microsoft Access database design",
+  "type": "module",
+  "scripts": {
+    "init": "node init-data.js",
+    "start": "node server.js",
+    "dev": "node server.js"
+  },
+  "license": "MIT",
+  "dependencies": {
+    "express": "^4.18.2",
+    "express-session": "^1.17.3"
+  }
+}

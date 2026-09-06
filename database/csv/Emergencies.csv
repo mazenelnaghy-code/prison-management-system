@@ -1,0 +1,5 @@
+EmergencyID,EmergencyType,EmergencyDate,Location,Description,CellID
+1,Fight,1/15/2024 14:30,Cafeteria,Altercation between two inmates,
+2,Medical,1/18/2024 9:15,Block C,Inmate collapsed ambulance called,3
+3,Fire Alarm,1/20/2024 22:45,Kitchen,Smoke detected in kitchen area,
+4,Lockdown,1/22/2024 16:00,Block A,Suspicious activity reported,1

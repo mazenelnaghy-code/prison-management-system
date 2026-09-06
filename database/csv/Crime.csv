@@ -1,0 +1,9 @@
+CrimeID,CrimeName,SeverityLevel
+1,Theft,Low
+2,Assault,Medium
+3,Armed Robbery,High
+4,Murder,Critical
+5,Drug Trafficking,High
+6,Fraud,Medium
+7,Kidnapping,Critical
+8,Burglary,Medium

@@ -1,0 +1,75 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Prison Management System</title>
+  <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+  <div id="app">
+    <!-- Login Screen -->
+    <div id="login-screen" class="screen active">
+      <div class="login-container">
+        <div class="login-header">
+          <h1>🔒 Prison Management System</h1>
+          <p>Secure Access Portal</p>
+        </div>
+        <form id="login-form">
+          <div class="form-group">
+            <label for="username">Username</label>
+            <input type="text" id="username" required autocomplete="username">
+          </div>
+          <div class="form-group">
+            <label for="password">Password</label>
+            <input type="password" id="password" required autocomplete="current-password">
+          </div>
+          <button type="submit" class="btn btn-primary">Login</button>
+          <div id="login-error" class="error-message"></div>
+        </form>
+        <div class="demo-credentials">
+          <p><strong>Demo Accounts:</strong></p>
+          <p>Admin: <code>admin / password123</code></p>
+          <p>Staff: <code>sarah.johnson / password123</code></p>
+          <p>Guard: <code>john.martinez / password123</code></p>
+        </div>
+      </div>
+    </div>
+
+    <!-- Dashboard Screen -->
+    <div id="dashboard-screen" class="screen">
+      <nav class="navbar">
+        <div class="nav-brand">
+          <h2>🏛️ Prison Management</h2>
+        </div>
+        <div class="nav-user">
+          <span id="user-name"></span>
+          <span id="user-role" class="badge"></span>
+          <button id="logout-btn" class="btn btn-small">Logout</button>
+        </div>
+      </nav>
+
+      <div class="container">
+        <aside class="sidebar">
+          <ul class="menu">
+            <li><a href="#" data-view="overview" class="active">📊 Overview</a></li>
+            <li id="menu-prisoners"><a href="#" data-view="prisoners">👥 Prisoners</a></li>
+            <li id="menu-guards"><a href="#" data-view="guards">🛡️ Guards</a></li>
+            <li id="menu-staff"><a href="#" data-view="staff">👨‍🍳 Staff</a></li>
+            <li id="menu-cells"><a href="#" data-view="cells">🔲 Cells</a></li>
+            <li id="menu-emergencies"><a href="#" data-view="emergencies">🚨 Emergencies</a></li>
+            <li id="menu-visits"><a href="#" data-view="visits">🤝 Visits</a></li>
+            <li id="menu-kitchens"><a href="#" data-view="kitchens">🍽️ Kitchens</a></li>
+          </ul>
+        </aside>
+
+        <main class="content" id="main-content">
+          <!-- Dynamic content loaded here -->
+        </main>
+      </div>
+    </div>
+  </div>
+
+  <script src="app.js"></script>
+</body>
+</html>

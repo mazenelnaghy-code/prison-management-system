@@ -1,0 +1,6 @@
+CellID,BlockName,Capacity,Occupied
+1,Block A,4,3
+2,Block B,4,4
+3,Block C,6,5
+4,Block D,4,2
+5,Isolation Wing,2,1

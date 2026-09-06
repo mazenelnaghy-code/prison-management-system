@@ -1,0 +1,391 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<title>Prison Management System &mdash; ER Diagram & Relational Schema</title>
+<style>
+  @page { size: A3 landscape; margin: 12mm; }
+  body { font-family: "Segoe UI", Calibri, Arial, sans-serif; color: #111; margin: 0; padding: 24px; background:#fff; }
+  h1 { font-size: 22pt; margin: 0 0 4pt 0; text-align:center; }
+  h2 { font-size: 15pt; margin: 18pt 0 8pt 0; border-bottom: 2px solid #333; padding-bottom: 4pt; }
+  h3 { font-size: 12pt; margin: 10pt 0 4pt 0; }
+  .subtitle { text-align: center; color:#555; margin-bottom: 18pt; font-size: 11pt; }
+  .legend { display:flex; gap:18px; flex-wrap:wrap; font-size:10pt; background:#fafafa; border:1px solid #ddd; padding:10pt; border-radius:6px; margin: 10pt 0; }
+  .legend-item { display:flex; align-items:center; gap:6pt; }
+  .legend-swatch { width:36px; height:18px; display:inline-block; }
+  table.schema { border-collapse: collapse; font-size: 10.5pt; width: 100%; margin-top: 8pt; }
+  table.schema th, table.schema td { border: 1px solid #999; padding: 6pt 8pt; text-align:left; vertical-align: top; }
+  table.schema th { background: #e8eef7; }
+  table.schema td.pk { background: #fff7d6; }
+  .rel { font-family: Consolas, "Courier New", monospace; font-size: 11pt; }
+  .rel u { text-decoration: underline; text-decoration-thickness: 1.5px; }
+  .rel .fk { color:#a8400a; }
+  .rel .pkfk { color:#a8400a; text-decoration: underline; text-decoration-thickness: 1.5px; }
+  .note { font-size: 10pt; color:#555; }
+  .rules { font-size: 10.5pt; }
+  .rules li { margin-bottom: 4pt; }
+  svg { display:block; margin: 0 auto; max-width: 100%; height: auto; background:#fff; }
+  /* SVG styles */
+  .entity rect { fill: #f4f9ff; stroke:#1a3a6e; stroke-width: 2; }
+  .entity .ename { font: bold 14px "Segoe UI", Arial, sans-serif; fill:#0b2547; }
+  .entity .attr { font: 11.5px "Segoe UI", Arial, sans-serif; fill:#111; }
+  .entity .pk { text-decoration: underline; font-weight:bold; }
+  .entity .fk { fill:#a8400a; font-style: italic; }
+  .rel-diamond { fill:#fff8d6; stroke:#7a5a00; stroke-width: 2; }
+  .rel-label { font: bold 11px "Segoe UI", Arial, sans-serif; fill:#3d2c00; text-anchor:middle; }
+  .rel-attr-oval { fill:#f0f7ed; stroke:#3a6b22; stroke-width:1.5; }
+  .rel-attr-text { font: italic 10.5px "Segoe UI", Arial, sans-serif; fill:#234c12; text-anchor:middle; }
+  .line { stroke:#222; stroke-width:1.6; fill:none; }
+  .line-total { stroke:#222; stroke-width:1.6; fill:none; }
+  .card-label { font: 11px "Segoe UI", Arial, sans-serif; fill:#222; }
+  .arrowmark { fill:#222; }
+</style>
+</head>
+<body>
+
+<h1>Prison Management System</h1>
+<div class="subtitle">Entity&ndash;Relationship Diagram &amp; Relational Schema &mdash; Chen / Silberschatz notation (Ch 7)</div>
+
+<div class="legend">
+  <div class="legend-item"><svg width="36" height="18"><rect x="2" y="2" width="32" height="14" class="entity" style="fill:#f4f9ff;stroke:#1a3a6e;stroke-width:2"/></svg> Entity set (rectangle)</div>
+  <div class="legend-item"><svg width="36" height="18"><polygon points="18,2 34,9 18,16 2,9" style="fill:#fff8d6;stroke:#7a5a00;stroke-width:2"/></svg> Relationship set (diamond)</div>
+  <div class="legend-item"><svg width="36" height="18"><ellipse cx="18" cy="9" rx="15" ry="7" style="fill:#f0f7ed;stroke:#3a6b22;stroke-width:1.5"/></svg> Descriptive attribute (oval)</div>
+  <div class="legend-item"><svg width="50" height="14"><line x1="2" y1="7" x2="48" y2="7" stroke="#222" stroke-width="1.6"/></svg> &mdash; line = many (partial participation)</div>
+  <div class="legend-item"><svg width="50" height="14"><line x1="2" y1="7" x2="48" y2="7" stroke="#222" stroke-width="1.6"/><polygon points="48,7 38,2 38,12" fill="#222"/></svg> &rarr; arrow = one</div>
+  <div class="legend-item"><svg width="50" height="14"><line x1="2" y1="4" x2="48" y2="4" stroke="#222" stroke-width="1.6"/><line x1="2" y1="10" x2="48" y2="10" stroke="#222" stroke-width="1.6"/></svg> = double line = total participation</div>
+  <div class="legend-item"><b><u>attr</u></b> = primary key</div>
+  <div class="legend-item"><span class="fk" style="color:#a8400a;font-style:italic">attr</span> = foreign key</div>
+</div>
+
+<h2>1. ER Diagram (Chen-style)</h2>
+
+<svg viewBox="0 0 1700 1180" xmlns="http://www.w3.org/2000/svg">
+  <defs>
+    <marker id="arrow" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="9" markerHeight="9" orient="auto-start-reverse">
+      <polygon points="0,0 10,5 0,10" class="arrowmark"/>
+    </marker>
+  </defs>
+
+  <!-- ============= ENTITIES ============= -->
+
+  <!-- Kitchen : top-left -->
+  <g class="entity">
+    <rect x="40"  y="40"  width="220" height="110" rx="4"/>
+    <text class="ename" x="150" y="62"  text-anchor="middle">Kitchen</text>
+    <text class="attr"  x="55"  y="86" ><tspan class="pk">RestaurantID</tspan></text>
+    <text class="attr"  x="55"  y="106">RestaurantName</text>
+    <text class="attr"  x="55"  y="126">Capacity</text>
+  </g>
+
+  <!-- Cell : top-center -->
+  <g class="entity">
+    <rect x="620" y="40"  width="200" height="120" rx="4"/>
+    <text class="ename" x="720" y="62"  text-anchor="middle">Cell</text>
+    <text class="attr"  x="635" y="86" ><tspan class="pk">CellID</tspan></text>
+    <text class="attr"  x="635" y="106">BlockName</text>
+    <text class="attr"  x="635" y="126">Capacity</text>
+    <text class="attr"  x="635" y="146">Occupied</text>
+  </g>
+
+  <!-- Crime : top-right -->
+  <g class="entity">
+    <rect x="1450" y="40"  width="220" height="110" rx="4"/>
+    <text class="ename" x="1560" y="62" text-anchor="middle">Crime</text>
+    <text class="attr"  x="1465" y="86" ><tspan class="pk">CrimeID</tspan></text>
+    <text class="attr"  x="1465" y="106">CrimeName</text>
+    <text class="attr"  x="1465" y="126">SeverityLevel</text>
+  </g>
+
+  <!-- Staff : middle-left -->
+  <g class="entity">
+    <rect x="40"  y="340" width="220" height="150" rx="4"/>
+    <text class="ename" x="150" y="362" text-anchor="middle">Staff</text>
+    <text class="attr"  x="55"  y="386"><tspan class="pk">StaffID</tspan></text>
+    <text class="attr"  x="55"  y="406">FullName</text>
+    <text class="attr"  x="55"  y="426">JobType</text>
+    <text class="attr"  x="55"  y="446">Phone</text>
+    <text class="attr"  x="55"  y="466">ShiftTime</text>
+  </g>
+
+  <!-- Guards : middle (left of center) -->
+  <g class="entity">
+    <rect x="420" y="340" width="210" height="130" rx="4"/>
+    <text class="ename" x="525" y="362" text-anchor="middle">Guards</text>
+    <text class="attr"  x="435" y="386"><tspan class="pk">GuardID</tspan></text>
+    <text class="attr"  x="435" y="406">FullName</text>
+    <text class="attr"  x="435" y="426">Phone</text>
+    <text class="attr"  x="435" y="446">ShiftTime</text>
+  </g>
+
+  <!-- Prisoners : center -->
+  <g class="entity">
+    <rect x="820" y="340" width="240" height="200" rx="4"/>
+    <text class="ename" x="940" y="362" text-anchor="middle">Prisoners</text>
+    <text class="attr"  x="835" y="386"><tspan class="pk">PrisonerID</tspan></text>
+    <text class="attr"  x="835" y="406">FullName</text>
+    <text class="attr"  x="835" y="426">Age</text>
+    <text class="attr"  x="835" y="446">Gender</text>
+    <text class="attr"  x="835" y="466">SentenceYears</text>
+    <text class="attr"  x="835" y="486">AdmissionDate</text>
+    <text class="attr"  x="835" y="506">ReleaseDate</text>
+    <text class="attr"  x="835" y="526">Status</text>
+  </g>
+
+  <!-- Users : center-lower-left -->
+  <g class="entity">
+    <rect x="220" y="640" width="220" height="130" rx="4"/>
+    <text class="ename" x="330" y="662" text-anchor="middle">Users</text>
+    <text class="attr"  x="235" y="686"><tspan class="pk">UserID</tspan></text>
+    <text class="attr"  x="235" y="706">Username</text>
+    <text class="attr"  x="235" y="726">Password</text>
+    <text class="attr"  x="235" y="746">Role</text>
+  </g>
+
+  <!-- Visitors : center-lower -->
+  <g class="entity">
+    <rect x="820" y="900" width="240" height="130" rx="4"/>
+    <text class="ename" x="940" y="922" text-anchor="middle">Visitors</text>
+    <text class="attr"  x="835" y="946"><tspan class="pk">VisitorID</tspan></text>
+    <text class="attr"  x="835" y="966">FullName</text>
+    <text class="attr"  x="835" y="986">RelationToPrisoner</text>
+    <text class="attr"  x="835" y="1006">Phone</text>
+  </g>
+
+  <!-- Emergencies : middle-right -->
+  <g class="entity">
+    <rect x="1200" y="640" width="230" height="150" rx="4"/>
+    <text class="ename" x="1315" y="662" text-anchor="middle">Emergencies</text>
+    <text class="attr"  x="1215" y="686"><tspan class="pk">EmergencyID</tspan></text>
+    <text class="attr"  x="1215" y="706">EmergencyType</text>
+    <text class="attr"  x="1215" y="726">EmergencyDate</text>
+    <text class="attr"  x="1215" y="746">Location</text>
+    <text class="attr"  x="1215" y="766">Description</text>
+  </g>
+
+  <!-- BackupForces : lower-right -->
+  <g class="entity">
+    <rect x="1450" y="900" width="220" height="140" rx="4"/>
+    <text class="ename" x="1560" y="922" text-anchor="middle">BackupForces</text>
+    <text class="attr"  x="1465" y="946"><tspan class="pk">BackupID</tspan></text>
+    <text class="attr"  x="1465" y="966">FullName</text>
+    <text class="attr"  x="1465" y="986">Rank</text>
+    <text class="attr"  x="1465" y="1006">Phone</text>
+    <text class="attr"  x="1465" y="1026">ShiftTime</text>
+  </g>
+
+  <!-- ============= RELATIONSHIPS (DIAMONDS) ============= -->
+
+  <!-- Employs: Kitchen 1 -- N Staff -->
+  <g>
+    <polygon class="rel-diamond" points="150,210 250,250 150,290 50,250"/>
+    <text class="rel-label" x="150" y="254">Employs</text>
+    <!-- Kitchen (1) -> diamond -->
+    <line class="line" x1="150" y1="150" x2="150" y2="210" marker-end="url(#arrow)"/>
+    <text class="card-label" x="158" y="180">1</text>
+    <!-- diamond -> Staff (N), total -->
+    <line class="line" x1="146" y1="290" x2="146" y2="340"/>
+    <line class="line" x1="154" y1="290" x2="154" y2="340"/>
+    <text class="card-label" x="160" y="320">N</text>
+  </g>
+
+  <!-- Patrols: Cell 1 -- N Guards -->
+  <g>
+    <polygon class="rel-diamond" points="525,210 625,250 525,290 425,250"/>
+    <text class="rel-label" x="525" y="254">Patrols</text>
+    <!-- Cell side: from bottom-left of Cell down to diamond -->
+    <line class="line" x1="660" y1="160" x2="525" y2="210" marker-end="url(#arrow)"/>
+    <text class="card-label" x="580" y="178">1</text>
+    <line class="line" x1="525" y1="290" x2="525" y2="340"/>
+    <text class="card-label" x="533" y="320">N</text>
+  </g>
+
+  <!-- Houses: Cell 1 -- N Prisoners (total on Prisoners side) -->
+  <g>
+    <polygon class="rel-diamond" points="820,210 920,250 820,290 720,250"/>
+    <text class="rel-label" x="820" y="254">Houses</text>
+    <!-- Cell to diamond -->
+    <line class="line" x1="780" y1="160" x2="820" y2="210" marker-end="url(#arrow)"/>
+    <text class="card-label" x="790" y="190">1</text>
+    <!-- diamond to Prisoners (total, double line) -->
+    <line class="line" x1="876" y1="262" x2="940" y2="340"/>
+    <line class="line" x1="884" y1="256" x2="948" y2="334"/>
+    <text class="card-label" x="900" y="312">N</text>
+  </g>
+
+  <!-- Committed: Prisoners M -- N Crime, with attr CrimeDate -->
+  <g>
+    <polygon class="rel-diamond" points="1290,210 1390,250 1290,290 1190,250"/>
+    <text class="rel-label" x="1290" y="254">Committed</text>
+    <!-- Prisoners to diamond -->
+    <line class="line" x1="1060" y1="380" x2="1190" y2="250"/>
+    <text class="card-label" x="1110" y="320">M</text>
+    <!-- diamond to Crime -->
+    <line class="line" x1="1390" y1="250" x2="1450" y2="150"/>
+    <text class="card-label" x="1430" y="200">N</text>
+    <!-- attribute oval CrimeDate -->
+    <ellipse class="rel-attr-oval" cx="1290" cy="340" rx="55" ry="20"/>
+    <text class="rel-attr-text" x="1290" y="345">CrimeDate</text>
+    <line class="line" x1="1290" y1="290" x2="1290" y2="320"/>
+  </g>
+
+  <!-- Visited_by: Prisoners M -- N Visitors, with attr VisitDate -->
+  <g>
+    <polygon class="rel-diamond" points="940,720 1040,760 940,800 840,760"/>
+    <text class="rel-label" x="940" y="764">Visited_by</text>
+    <line class="line" x1="940" y1="540" x2="940" y2="720"/>
+    <text class="card-label" x="948" y="600">M</text>
+    <line class="line" x1="940" y1="800" x2="940" y2="900"/>
+    <text class="card-label" x="948" y="860">N</text>
+    <!-- VisitDate oval -->
+    <ellipse class="rel-attr-oval" cx="1110" cy="760" rx="55" ry="20"/>
+    <text class="rel-attr-text" x="1110" y="765">VisitDate</text>
+    <line class="line" x1="1040" y1="760" x2="1055" y2="760"/>
+  </g>
+
+  <!-- Site_of: Cell 1 -- N Emergencies (partial on Emergencies side) -->
+  <g>
+    <polygon class="rel-diamond" points="1315,460 1415,500 1315,540 1215,500"/>
+    <text class="rel-label" x="1315" y="504">Site_of</text>
+    <line class="line" x1="820" y1="120" x2="1215" y2="500" marker-end="url(#arrow)"/>
+    <text class="card-label" x="1050" y="290">1</text>
+    <line class="line" x1="1315" y1="540" x2="1315" y2="640"/>
+    <text class="card-label" x="1323" y="600">N</text>
+  </g>
+
+  <!-- Responds_with: Emergencies M -- N BackupForces -->
+  <g>
+    <polygon class="rel-diamond" points="1560,830 1660,870 1560,910 1460,870"/>
+    <text class="rel-label" x="1560" y="874">Responds_with</text>
+    <line class="line" x1="1430" y1="780" x2="1530" y2="850"/>
+    <text class="card-label" x="1480" y="824">M</text>
+    <line class="line" x1="1560" y1="910" x2="1560" y2="900"/>
+    <text class="card-label" x="1568" y="900">N</text>
+  </g>
+
+  <!-- Has_account (Staff): Staff 1 -- 1 Users (partial both sides) -->
+  <g>
+    <polygon class="rel-diamond" points="150,560 250,600 150,640 50,600"/>
+    <text class="rel-label" x="150" y="604">Has_account</text>
+    <line class="line" x1="150" y1="490" x2="150" y2="560" marker-end="url(#arrow)"/>
+    <text class="card-label" x="158" y="525">1</text>
+    <line class="line" x1="250" y1="600" x2="320" y2="640" marker-end="url(#arrow)"/>
+    <text class="card-label" x="280" y="615">1</text>
+  </g>
+
+  <!-- Has_account (Guards): Guards 1 -- 1 Users (partial) -->
+  <g>
+    <polygon class="rel-diamond" points="525,560 625,600 525,640 425,600"/>
+    <text class="rel-label" x="525" y="604">Has_account</text>
+    <line class="line" x1="525" y1="470" x2="525" y2="560" marker-end="url(#arrow)"/>
+    <text class="card-label" x="533" y="510">1</text>
+    <line class="line" x1="440" y1="610" x2="425" y2="600" marker-end="url(#arrow)"/>
+    <line class="line" x1="425" y1="600" x2="350" y2="660" marker-end="url(#arrow)"/>
+    <text class="card-label" x="395" y="625">1</text>
+  </g>
+
+</svg>
+
+<p class="note">Notation follows Silberschatz Ch 7. <b>Arrow (&rarr;)</b> at an end = "one". <b>Plain line</b> = "many". <b>Double line</b> = total participation (every entity must participate). Primary keys are underlined inside each rectangle. Descriptive attributes of a relationship (e.g. <i>CrimeDate</i>, <i>VisitDate</i>) hang off the diamond in an oval.</p>
+
+<h2>2. Entity Sets &amp; Attributes</h2>
+<table class="schema">
+<tr><th>Entity Set</th><th>Primary Key</th><th>Other Attributes</th><th>Domain Notes</th></tr>
+<tr><td>Cell</td><td class="pk">CellID</td><td>BlockName, Capacity, Occupied</td><td>Capacity, Occupied &ge; 0; Occupied &le; Capacity (semantic)</td></tr>
+<tr><td>Crime</td><td class="pk">CrimeID</td><td>CrimeName, SeverityLevel</td><td>SeverityLevel &isin; {Low, Medium, High, Critical}</td></tr>
+<tr><td>Kitchen</td><td class="pk">RestaurantID</td><td>RestaurantName, Capacity</td><td></td></tr>
+<tr><td>Staff</td><td class="pk">StaffID</td><td>FullName, JobType, Phone, ShiftTime</td><td></td></tr>
+<tr><td>Guards</td><td class="pk">GuardID</td><td>FullName, Phone, ShiftTime</td><td></td></tr>
+<tr><td>Prisoners</td><td class="pk">PrisonerID</td><td>FullName, Age, Gender, SentenceYears, AdmissionDate, ReleaseDate, Status</td><td>derived: <i>YearsServed</i> = (Now() &minus; AdmissionDate)</td></tr>
+<tr><td>Visitors</td><td class="pk">VisitorID</td><td>FullName, RelationToPrisoner, Phone</td><td></td></tr>
+<tr><td>Emergencies</td><td class="pk">EmergencyID</td><td>EmergencyType, EmergencyDate, Location, Description</td><td>EmergencyDate defaults to Now()</td></tr>
+<tr><td>BackupForces</td><td class="pk">BackupID</td><td>FullName, Rank, Phone, ShiftTime</td><td></td></tr>
+<tr><td>Users</td><td class="pk">UserID</td><td>Username (unique), Password, Role</td><td>Role &isin; {Admin, Staff, Guard}</td></tr>
+</table>
+
+<h2>3. Relationship Sets &mdash; Cardinality &amp; Participation Rules</h2>
+<table class="schema">
+<tr><th>Relationship</th><th>Between</th><th>Cardinality</th><th>Participation</th><th>Descriptive Attributes</th><th>Business Rule</th></tr>
+<tr><td>Employs</td><td>Kitchen &mdash; Staff</td><td>1 : N</td><td>Staff: <b>total</b>; Kitchen: partial</td><td>&mdash;</td><td>Every staff member works in exactly one kitchen.</td></tr>
+<tr><td>Patrols</td><td>Cell &mdash; Guards</td><td>1 : N</td><td>Guards: partial; Cell: partial</td><td>&mdash;</td><td>A guard may be assigned to at most one cell at a time.</td></tr>
+<tr><td>Houses</td><td>Cell &mdash; Prisoners</td><td>1 : N</td><td>Prisoners: <b>total</b>; Cell: partial</td><td>&mdash;</td><td>Every prisoner is housed in exactly one cell.</td></tr>
+<tr><td>Site_of</td><td>Cell &mdash; Emergencies</td><td>1 : N</td><td>Both partial</td><td>&mdash;</td><td>An emergency may occur in a cell, or in a common area (NULL CellID).</td></tr>
+<tr><td>Committed</td><td>Prisoners &mdash; Crime</td><td>M : N</td><td>Prisoners: <b>total</b>; Crime: partial</td><td>CrimeDate</td><td>A prisoner is convicted of one or more crimes; a crime type may apply to many prisoners.</td></tr>
+<tr><td>Visited_by</td><td>Prisoners &mdash; Visitors</td><td>M : N</td><td>Both partial</td><td>VisitDate</td><td>Visit log: same visitor may visit same prisoner many times on different dates.</td></tr>
+<tr><td>Responds_with</td><td>Emergencies &mdash; BackupForces</td><td>M : N</td><td>Both partial</td><td>&mdash;</td><td>Multiple backup units may respond to one emergency; one unit may respond to many.</td></tr>
+<tr><td>Has_account (Staff)</td><td>Staff &mdash; Users</td><td>1 : 1</td><td>Both partial</td><td>&mdash;</td><td>A staff member may have a system login; a user account may belong to a staff member.</td></tr>
+<tr><td>Has_account (Guards)</td><td>Guards &mdash; Users</td><td>1 : 1</td><td>Both partial</td><td>&mdash;</td><td>A guard may have a system login; a user account may belong to a guard.</td></tr>
+</table>
+
+<h2>4. Relational Schema (Reduction to Tables &mdash; Ch 7_3)</h2>
+<p class="note">Primary keys are <b><u>underlined</u></b>. Foreign keys are <span class="fk"><i>italic-orange</i></span>. Attributes that are both PK and FK are <span class="pkfk">underlined-italic-orange</span>.</p>
+
+<div class="rel">
+<p><b>Cell</b>(<u>CellID</u>, BlockName, Capacity, Occupied)</p>
+<p><b>Crime</b>(<u>CrimeID</u>, CrimeName, SeverityLevel)</p>
+<p><b>Kitchen</b>(<u>RestaurantID</u>, RestaurantName, Capacity)</p>
+<p><b>Staff</b>(<u>StaffID</u>, FullName, JobType, Phone, ShiftTime, <span class="fk">RestaurantID</span>) &nbsp;&nbsp; <span class="note">// FK: RestaurantID &rarr; Kitchen(RestaurantID)</span></p>
+<p><b>Guards</b>(<u>GuardID</u>, FullName, Phone, ShiftTime, <span class="fk">CellID</span>) &nbsp;&nbsp; <span class="note">// FK: CellID &rarr; Cell(CellID)</span></p>
+<p><b>Prisoners</b>(<u>PrisonerID</u>, FullName, Age, Gender, SentenceYears, AdmissionDate, ReleaseDate, <span class="fk">CellID</span>, Status) &nbsp;&nbsp; <span class="note">// FK: CellID &rarr; Cell(CellID)</span></p>
+<p><b>Visitors</b>(<u>VisitorID</u>, FullName, RelationToPrisoner, Phone)</p>
+<p><b>BackupForces</b>(<u>BackupID</u>, FullName, Rank, Phone, ShiftTime)</p>
+<p><b>Emergencies</b>(<u>EmergencyID</u>, EmergencyType, EmergencyDate, Location, Description, <span class="fk">CellID</span>) &nbsp;&nbsp; <span class="note">// FK: CellID &rarr; Cell(CellID), nullable</span></p>
+<p><b>PrisonerCrime</b>(<u>PrisonerCrimeID</u>, <span class="fk">PrisonerID</span>, <span class="fk">CrimeID</span>, CrimeDate) &nbsp;&nbsp; <span class="note">// FKs: PrisonerID &rarr; Prisoners, CrimeID &rarr; Crime &nbsp;&middot;&nbsp; alt. PK: (PrisonerID, CrimeID, CrimeDate)</span></p>
+<p><b>Visits</b>(<u>VisitID</u>, <span class="fk">PrisonerID</span>, <span class="fk">VisitorID</span>, VisitDate) &nbsp;&nbsp; <span class="note">// FKs: PrisonerID &rarr; Prisoners, VisitorID &rarr; Visitors</span></p>
+<p><b>EmergencyBackup</b>(<u>EmergencyBackupID</u>, <span class="fk">EmergencyID</span>, <span class="fk">BackupID</span>) &nbsp;&nbsp; <span class="note">// FKs: EmergencyID &rarr; Emergencies, BackupID &rarr; BackupForces</span></p>
+<p><b>Users</b>(<u>UserID</u>, Username, Password, Role, <span class="fk">StaffID</span>, <span class="fk">GuardID</span>) &nbsp;&nbsp; <span class="note">// FKs: StaffID &rarr; Staff (nullable), GuardID &rarr; Guards (nullable); Username UNIQUE; CHECK exactly one of (StaffID, GuardID) NOT NULL when Role &ne; 'Admin'</span></p>
+</div>
+
+<h2>5. Reduction Rules Applied (mapping ER &rarr; Relational, per Ch 7_3)</h2>
+<ol class="rules">
+<li><b>Strong entity sets &rarr; one table each.</b> Cell, Crime, Kitchen, Staff, Guards, Prisoners, Visitors, BackupForces, Emergencies, Users are all strong &mdash; each becomes a relation with the same attributes and the same primary key. (Ch 7_3 &mdash; "Strong Entity-Sets with simple attributes")</li>
+
+<li><b>1 : N relationships &rarr; foreign key on the "many" side.</b> No separate table is needed for the relationship; instead, the primary key of the "one" side is added as a foreign key column to the "many" side. Applied to:
+  <ul>
+    <li><i>Employs</i> &rarr; <code>RestaurantID</code> added to <b>Staff</b></li>
+    <li><i>Patrols</i> &rarr; <code>CellID</code> added to <b>Guards</b></li>
+    <li><i>Houses</i> &rarr; <code>CellID</code> added to <b>Prisoners</b></li>
+    <li><i>Site_of</i> &rarr; <code>CellID</code> added to <b>Emergencies</b> (nullable because participation is partial)</li>
+  </ul>
+</li>
+
+<li><b>M : N relationships &rarr; new junction table.</b> The relationship becomes its own relation whose attributes are the union of the participating entities' primary keys plus any descriptive attributes of the relationship. Applied to:
+  <ul>
+    <li><i>Committed</i> &rarr; <b>PrisonerCrime</b>(PrisonerID, CrimeID, CrimeDate)</li>
+    <li><i>Visited_by</i> &rarr; <b>Visits</b>(PrisonerID, VisitorID, VisitDate)</li>
+    <li><i>Responds_with</i> &rarr; <b>EmergencyBackup</b>(EmergencyID, BackupID)</li>
+  </ul>
+  A surrogate PK (<code>PrisonerCrimeID</code> etc.) is used in the built database for convenience; the natural composite PK of the relationship would otherwise be the union of the two foreign keys.
+</li>
+
+<li><b>1 : 1 relationships &rarr; foreign key on either side (chosen by participation).</b> The <i>Has_account</i> relationships between Users and (Staff / Guards) become two nullable foreign keys (<code>StaffID</code>, <code>GuardID</code>) on the <b>Users</b> side, because participation on the Staff/Guards side is partial (not every staff member has a login). (Ch 7_3 &mdash; "Schema Combination &mdash; One-to-one")</li>
+
+<li><b>Descriptive attributes of a relationship.</b> <i>CrimeDate</i> on <i>Committed</i> and <i>VisitDate</i> on <i>Visited_by</i> are stored as columns of the corresponding junction tables, exactly as the textbook prescribes for an attribute hanging off a diamond. (Ch 7_3 &mdash; "Relationship-Set Example: borrower")</li>
+
+<li><b>Domain constraints &rarr; CHECK / validation rules.</b> <code>Crime.SeverityLevel &isin; {Low, Medium, High, Critical}</code> and <code>Users.Role &isin; {Admin, Staff, Guard}</code> are implemented as validation rules in the resulting database. (Ch 7_1 &mdash; "Constraints")</li>
+
+<li><b>Referential integrity.</b> Every foreign key is declared with referential integrity enforced + cascade update, matching the constraint type defined in the ER model. (Ch 7_1 &mdash; "Keys")</li>
+
+<li><b>No weak entity sets in this schema.</b> Every entity is independently identifiable by its own surrogate ID, so the weak-entity rules from Ch 7_1 (dashed-underline discriminator, double-diamond identifying relationship, composite PK = owner PK &cup; discriminator) are not applied here. They would apply if, for example, <i>Visit</i> had no surrogate VisitID and were identified only by (PrisonerID, VisitorID, VisitDate).</li>
+</ol>
+
+<h2>6. SQL DDL Summary (matches the built .accdb)</h2>
+<div class="rel" style="font-size:10pt; white-space:pre-wrap; background:#f7f7f7; border:1px solid #ccc; padding:10pt;">
+Cell            (<u>CellID</u>, BlockName, Capacity, Occupied)
+Crime           (<u>CrimeID</u>, CrimeName, SeverityLevel)
+Kitchen         (<u>RestaurantID</u>, RestaurantName, Capacity)
+Staff           (<u>StaffID</u>, FullName, JobType, Phone, ShiftTime, <i>RestaurantID</i>&rarr;Kitchen)
+Guards          (<u>GuardID</u>, FullName, Phone, ShiftTime, <i>CellID</i>&rarr;Cell)
+Prisoners       (<u>PrisonerID</u>, FullName, Age, Gender, SentenceYears, AdmissionDate, ReleaseDate, <i>CellID</i>&rarr;Cell, Status)
+Visitors        (<u>VisitorID</u>, FullName, RelationToPrisoner, Phone)
+BackupForces    (<u>BackupID</u>, FullName, Rank, Phone, ShiftTime)
+Emergencies     (<u>EmergencyID</u>, EmergencyType, EmergencyDate, Location, Description, <i>CellID</i>&rarr;Cell)
+PrisonerCrime   (<u>PrisonerCrimeID</u>, <i>PrisonerID</i>&rarr;Prisoners, <i>CrimeID</i>&rarr;Crime, CrimeDate)
+Visits          (<u>VisitID</u>, <i>PrisonerID</i>&rarr;Prisoners, <i>VisitorID</i>&rarr;Visitors, VisitDate)
+EmergencyBackup (<u>EmergencyBackupID</u>, <i>EmergencyID</i>&rarr;Emergencies, <i>BackupID</i>&rarr;BackupForces)
+Users           (<u>UserID</u>, Username[unique], Password, Role, <i>StaffID</i>&rarr;Staff, <i>GuardID</i>&rarr;Guards)
+</div>
+
+<p class="note" style="margin-top:18pt; text-align:center; border-top:1px solid #ccc; padding-top:8pt;">Generated to match the rules in <i>Database System Concepts</i>, 6th Ed. (Silberschatz, Korth, Sudarshan) &mdash; Chapter 7.</p>
+
+</body>
+</html>

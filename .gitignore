@@ -1,0 +1,16 @@
+node_modules/
+npm-debug.log*
+
+# Access lock files
+*.laccdb
+
+# OS / editor cruft
+Thumbs.db
+desktop.ini
+.DS_Store
+.vscode/
+.idea/
+
+# Archives — the unpacked sources are what belongs in the repo
+*.zip
+*.tar.gz
